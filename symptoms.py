@@ -39,11 +39,10 @@ Uncertainty: If data is insufficient, respond with:
 "I can't make a definitive diagnosis based on the given data. Please provide more details."
 Guidance: Offer medical insights but do not provide prescriptions or treatment advice—recommend consulting a doctor when necessary.
 Keep responses accurate, structured, and professional while maintaining an empathetic tone. Ask only one question at a time.'''),
-        MessagesPlaceholder("chat_history"),
         ("human", "{Question}")
     ])
     chain = prompt | llm
-    response = chain.invoke({"Question": input,  "chat_history": ''})
+    response = chain.invoke({"Question": input})
     chatHistory.extend([HumanMessage(content=input), response.content])
     return response.content
 
