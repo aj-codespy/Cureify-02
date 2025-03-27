@@ -43,7 +43,6 @@ Keep responses accurate, structured, and professional while maintaining an empat
     ])
     chain = prompt | llm
     response = chain.invoke({"Question": input})
-    chatHistory.extend([HumanMessage(content=input), response.content])
     return response.content
 
 def query_vector_db_with_rag(query_text, index, text_chunks, k=3):
