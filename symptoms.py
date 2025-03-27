@@ -21,7 +21,7 @@ def get_text_embeddings(text):
     embeddings = model.encode([text])
     return embeddings
 
-def answer_generation(input, chatHistory):
+def answer_generation(input):
     llm = ChatGoogleGenerativeAI(
         model='gemini-1.5-flash',
         temperature=0,
