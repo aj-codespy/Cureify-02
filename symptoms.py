@@ -54,10 +54,10 @@ def query_vector_db_with_rag(query_text, index, text_chunks, k=3):
     context = "\n".join(retrieved_chunks)
     return context
 
-def retrieve_and_answer(query_text, chatHistory, index_path="faiss_index.idx", chunks_file="text_chunks.pkl", k=4):
+def retrieve_and_answer(query_text, index_path="faiss_index.idx", chunks_file="text_chunks.pkl", k=4):
     index, stored_chunks = load_vector_db(index_path, chunks_file)
     context = query_vector_db_with_rag(query_text, index, stored_chunks, k)
-    response = answer_generation(f"Context: {context}\nQuestion: {query_text}", chatHistory)
+    response = answer_generation(f"Context: {context}\nQuestion: {query_text}")
     return response
 
 
