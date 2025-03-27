@@ -37,10 +37,9 @@ def routerAgent(img, prompt):
     elif 'query' in output:
         queryOutput = queryAnalysis(prompt)
         return queryOutput
-    # elif 'symptom' in output:
-    #     result = retrieve_and_answer(prompt, chatHistory)
-    #     while (result!='done' or result!='DONE'):
-    #         result = retrieve_and_answer(prompt, chatHistory)
+    elif 'symptom' in output:
+         result = retrieve_and_answer(prompt)
+         return result
     else:
         return output
 
