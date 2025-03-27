@@ -43,7 +43,7 @@ Keep responses accurate, structured, and professional while maintaining an empat
         ("human", "{Question}")
     ])
     chain = prompt | llm
-    response = chain.invoke({"Question": input,  "chat_history": chatHistory})
+    response = chain.invoke({"Question": input,  "chat_history": ''})
     chatHistory.extend([HumanMessage(content=input), response.content])
     return response.content
 
