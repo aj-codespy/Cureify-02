@@ -1,8 +1,8 @@
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_google_genai import GoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 
 def structAgent(prompt, output):
-    llm = ChatGoogleGenerativeAI(
+    llm = GoogleGenerativeAI(
         model='gemini-1.5-flash',
         temperature=0,
         api_key='AIzaSyDtB4bETfNDyvpzA_NnBKMrr56rdiOE8bQ',
