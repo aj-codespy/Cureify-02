@@ -3,7 +3,7 @@ import google.generativeai as genai
 from query import queryAnalysis
 
 genai.configure(api_key='AIzaSyDtB4bETfNDyvpzA_NnBKMrr56rdiOE8bQ')
-model = genai.GenerativeModel(model_name="gemini-1.5-flash")
+model = genai.GenerativeModel(model_name="gemini-2.0-flash")
 
 def OCR(img, prompt):
     imgFile = PIL.Image.open(img)
