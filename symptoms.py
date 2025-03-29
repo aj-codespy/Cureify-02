@@ -1,7 +1,7 @@
 import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_google_genai import GoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages import HumanMessage
 import pickle
@@ -22,7 +22,7 @@ def get_text_embeddings(text):
     return embeddings
 
 def answer_generation(input):
-    llm = ChatGoogleGenerativeAI(
+    llm = GoogleGenerativeAI(
         model='gemini-1.5-flash',
         temperature=0,
         api_key='AIzaSyDtB4bETfNDyvpzA_NnBKMrr56rdiOE8bQ',
