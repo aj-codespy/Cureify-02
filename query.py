@@ -1,8 +1,8 @@
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_google_genai import GoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 
 def queryAnalysis(prompt):
-    llm = ChatGoogleGenerativeAI(
+    llm = GoogleGenerativeAI(
         model='gemini-2.0-flash',
         temperature=0,
         api_key='AIzaSyDtB4bETfNDyvpzA_NnBKMrr56rdiOE8bQ',
