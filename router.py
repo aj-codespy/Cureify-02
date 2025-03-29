@@ -1,4 +1,4 @@
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_google_genai import GoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from imageAgent import imgClassifier
 from query import queryAnalysis
@@ -10,7 +10,7 @@ def routerAgent(img, prompt):
     symptoms. If it's any other task then respond with the word query.
     Whatever is the decision you make give it in All lowercase'''
 
-    Agent = ChatGoogleGenerativeAI(
+    Agent = GoogleGenerativeAI(
         model='gemini-2.0-flash',
         temperature=0,
         api_key='AIzaSyDtB4bETfNDyvpzA_NnBKMrr56rdiOE8bQ',
