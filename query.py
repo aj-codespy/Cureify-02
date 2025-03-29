@@ -3,7 +3,7 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 
 def queryAnalysis(prompt):
     llm = ChatGoogleGenerativeAI(
-        model='gemini-1.5-flash',
+        model='gemini-2.0-flash',
         temperature=0,
         api_key='AIzaSyDtB4bETfNDyvpzA_NnBKMrr56rdiOE8bQ',
         max_tokens=None,
