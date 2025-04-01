@@ -29,7 +29,7 @@ def routerAgent(img, prompt):
     chain = role | Agent
     response = chain.invoke({'input':prompt})
 
-    output = response.content 
+    output = response 
     
     if img:
         imgAnalysis = imgClassifier(img, prompt)
