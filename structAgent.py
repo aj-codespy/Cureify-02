@@ -21,4 +21,4 @@ def structAgent(prompt, output):
 
     chain = input_prompt | llm
     response = chain.invoke({'input':prompt, 'answer':output})
-    return response.content
+    return response
