@@ -43,7 +43,7 @@ Keep responses accurate, structured, and professional while maintaining an empat
     ])
     chain = prompt | llm
     response = chain.invoke({"Question": input})
-    return response.content
+    return response
 
 def query_vector_db_with_rag(query_text, index, text_chunks, k=3):
     query_embedding = np.array(get_text_embeddings(query_text)).astype('float32').reshape(1, -1)
