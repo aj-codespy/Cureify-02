@@ -21,5 +21,5 @@ def queryAnalysis(prompt):
     chain = input_prompt | llm
     response = chain.invoke({'input':prompt})
 
-    return response.content
+    return response
 
