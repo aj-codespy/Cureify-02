@@ -2,10 +2,10 @@ import streamlit as st
 from PIL import Image
 from main import mainAgent
 from googletrans import Translator
+import asyncio
 
 st.title('Cureify: Clinical Decision Support System')
 
-# Language dropdown
 languages = {
     "English": "en",
     "Hindi": "hi",
@@ -18,12 +18,11 @@ languages = {
     "Bengali": "bn"
 }
 lang_choice = st.selectbox('Select Language', list(languages.keys()))
+lang_code = languages[lang_choice]
 
-# Text and image input
 prompt = st.text_input('Enter your symptoms or medical query')
 img = st.file_uploader('Upload an image (optional)')
 
-# Image display styling
 if img:
     image = Image.open(img)
     st.markdown(
@@ -41,20 +40,28 @@ if img:
     )
     st.image(image, caption="Uploaded Image", use_container_width=True)
 
-# Submit logic
+async def translate_text(text, dest):
+    translator = Translator()
+    result = await translator.translate(text, dest=dest)
+    return result.text
+
 if st.button('Submit'):
     if prompt or img:
-        translator = Translator()
-        lang_code = languages[lang_choice]
-        
-        # Translate the prompt only if it's not English
-        translated_prompt = translator.translate(prompt, dest="en").text if lang_code != "en" else prompt
-        
-        # Call mainAgent with translated prompt
-        result = mainAgent(translated_prompt, img)
-        
-        # Translate result back to original language if needed
-        final_output = translator.translate(result, dest=lang_code).text if lang_code != "en" else result
-        st.write(final_output)
+        try:
+            if lang_code != "en":
+                translated_prompt = asyncio.run(translate_text(prompt, "en"))
+            else:
+                translated_prompt = prompt
+
+            result = mainAgent(translated_prompt, img)
+
+            if lang_code != "en":
+                final_output = asyncio.run(translate_text(result, lang_code))
+            else:
+                final_output = result
+
+            st.write(final_output)
+        except Exception as e:
+            st.error(f"Error: {e}")
     else:
         st.warning("Please enter symptoms or upload an image before submitting.")
