@@ -13,7 +13,7 @@ def queryAnalysis(prompt):
     
     input_prompt = ChatPromptTemplate.from_messages([
         (
-            'system', "You're a medical specialist and your task is to provide a detailed answer for the given query. The answer should be in depth and approx about 300 words."
+            'system', "You are talking to a doctor You're a medical specialist and your task is to provide a detailed answer for the given query. The answer should be in depth and approx about 300 words."
         ),
         ('user', "{input}")
     ])
