@@ -13,7 +13,7 @@ def routerAgent(img, prompt):
     Agent = GoogleGenerativeAI(
         model='gemini-2.0-flash',
         temperature=0,
-        api_key='AIzaSyDtB4bETfNDyvpzA_NnBKMrr56rdiOE8bQ',
+        api_key='AIzaSyBozQi2V59ZCzUI6smDyDHt1j9sSSkcZbE',
         max_tokens=None,
         timeout=30,
         max_retries=2
