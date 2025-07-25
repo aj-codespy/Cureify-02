@@ -25,7 +25,7 @@ def answer_generation(input):
     llm = GoogleGenerativeAI(
         model='gemini-1.5-flash',
         temperature=0,
-        api_key='AIzaSyDtB4bETfNDyvpzA_NnBKMrr56rdiOE8bQ',
+        api_key='AIzaSyBozQi2V59ZCzUI6smDyDHt1j9sSSkcZbE',
         max_tokens=None,
         timeout=30,
         max_retries=2
