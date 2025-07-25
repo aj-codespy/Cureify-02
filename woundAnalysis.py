@@ -1,7 +1,7 @@
 import PIL.Image
 import os
 import google.generativeai as genai
-genai.configure(api_key='AIzaSyDtB4bETfNDyvpzA_NnBKMrr56rdiOE8bQ')
+genai.configure(api_key='AIzaSyBozQi2V59ZCzUI6smDyDHt1j9sSSkcZbE')
 
 def woundAnalysis(img, prompt):
     basePrompt = '''
