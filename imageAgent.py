@@ -5,7 +5,7 @@ from woundAnalysis import woundAnalysis
 from OCR import OCR
 from imgQuery import imgQuery
 
-genai.configure(api_key='AIzaSyDtB4bETfNDyvpzA_NnBKMrr56rdiOE8bQ')
+genai.configure(api_key='AIzaSyBozQi2V59ZCzUI6smDyDHt1j9sSSkcZbE')
 
 def imgClassifier(img, prompt):
     base_prompt = "You are an image classifier agent, you have to classify the image into 3 categories, if the image is an xray, enter xray and if the image is a prescription or medicine image, enter ocr and if it is some kind of wound or accident image enter wound and if its anything other than this then enter other. Always reply with only one of the given options" 
