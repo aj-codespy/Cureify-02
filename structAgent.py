@@ -14,9 +14,38 @@ def structAgent(prompt, output):
     
     input_prompt = ChatPromptTemplate.from_messages([
         (
-            'system', "You're a medical output structure generator. Your task is to format the given medical response in a clear, professional, and easy-to-understand manner. Structure the output with proper headings, bullet points, and clear explanations. Make it user-friendly for patients while maintaining medical accuracy. Here's the medical response to format: {answer}"
+            'system', """You are a medical response formatter. Transform the given medical analysis into a clear, structured format that patients can easily understand. 
+
+IMPORTANT RULES:
+- Remove any AI/agent language like "I am", "I can", "I would recommend"
+- Be direct and professional
+- Structure the response with clear sections
+- Use bullet points and headings
+- Focus on facts and actionable advice
+
+REQUIRED FORMAT:
+## 🎯 **Issue Identified**
+[Brief description of the main concern]
+
+## 🔍 **Possible Causes**
+- [Cause 1]
+- [Cause 2]
+- [Cause 3]
+
+## 💡 **Recommended Actions**
+- [Action 1]
+- [Action 2]
+- [Action 3]
+
+## ⚠️ **When to Seek Medical Help**
+[Specific conditions that require immediate medical attention]
+
+## 📋 **Additional Notes**
+[Any other relevant information]
+
+Medical response to format: {answer}"""
         ),
-        ('user', "Please format this medical response for the query: {input}")
+        ('user', "Format this medical analysis for the query: {input}")
     ])
 
     chain = input_prompt | llm

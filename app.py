@@ -114,13 +114,6 @@ if st.button('🔍 Analyze Medical Query', type="primary"):
                     if selected_language_code != 'en':
                         with st.expander("🌐 Original English Version"):
                             st.write(result)
-                    
-                    # Show conversation context
-                    if chat_manager.get_chat_history():
-                        st.markdown("---")
-                        st.markdown("### 📋 Current Conversation Context")
-                        context = chat_manager.get_conversation_summary()
-                        st.text_area("Context", context, height=100, disabled=True)
                             
                 else:
                     st.error("Sorry, I couldn't process your request. Please try again with more specific information.")

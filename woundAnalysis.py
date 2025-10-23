@@ -7,9 +7,17 @@ from config import configure_genai
 configure_genai()
 
 def woundAnalysis(img, prompt):
-    basePrompt = '''
-        You're a medical specialist and your task is to identify the wound from the given image and based on that do it's detailed analysis like what could be the cause of the wound, how to treat it, what are the symptoms of the wound, what are the precautions to be taken, what are the things that should be kept in mind while treating the wound and what are the things that should be kept in mind while taking care of the wound. And lastly how much time will it take to heal and what are the things that should be kept in mind while healing the wound.
-    ''' 
+    basePrompt = '''Analyze the wound in the image and provide a structured medical assessment.
+
+Provide a detailed analysis covering:
+- Wound identification and classification
+- Possible causes
+- Treatment recommendations
+- Care instructions
+- Healing timeline
+- Warning signs to watch for
+
+Format the response with clear headings and bullet points. Be direct and professional without using AI/agent language.''' 
     
     model = genai.GenerativeModel(model_name="gemini-2.0-flash")
     imgFile = PIL.Image.open(img)
