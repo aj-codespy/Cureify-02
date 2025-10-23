@@ -1,8 +1,9 @@
-from langchain_google_genai import GoogleGenerativeAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from imageAgent import imgClassifier
 from query import queryAnalysis
 from symptoms import retrieve_and_answer
+from config import get_api_key
 
 def routerAgent(img, prompt):
     base = '''From the given prompt, you have to find out which task do we have to perform, if it's an image, 
@@ -10,10 +11,10 @@ def routerAgent(img, prompt):
     symptoms. If it's any other task then respond with the word query.
     Whatever is the decision you make give it in All lowercase'''
 
-    Agent = GoogleGenerativeAI(
-        model='gemini-2.0-flash',
+    Agent = ChatGoogleGenerativeAI(
+        model='gemini flash 2.0',
         temperature=0,
-        api_key='AIzaSyBozQi2V59ZCzUI6smDyDHt1j9sSSkcZbE',
+        api_key=get_api_key(),
         max_tokens=None,
         timeout=30,
         max_retries=2
@@ -29,7 +30,7 @@ def routerAgent(img, prompt):
     chain = role | Agent
     response = chain.invoke({'input':prompt})
 
-    output = response 
+    output = response.content 
     
     if img:
         imgAnalysis = imgClassifier(img, prompt)
@@ -37,9 +38,10 @@ def routerAgent(img, prompt):
     elif 'query' in output:
         queryOutput = queryAnalysis(prompt)
         return queryOutput
-    elif 'symptom' in output:
-         result = retrieve_and_answer(prompt)
-         return result
+    # elif 'symptom' in output:
+    #     result = retrieve_and_answer(prompt, chatHistory)
+    #     while (result!='done' or result!='DONE'):
+    #         result = retrieve_and_answer(prompt, chatHistory)
     else:
         return output
 

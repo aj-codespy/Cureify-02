@@ -1,11 +1,12 @@
-from langchain_google_genai import GoogleGenerativeAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from config import get_api_key
 
 def queryAnalysis(prompt):
-    llm = GoogleGenerativeAI(
-        model='gemini-2.0-flash',
+    llm = ChatGoogleGenerativeAI(
+        model='gemini flash 2.0',
         temperature=0,
-        api_key='AIzaSyBozQi2V59ZCzUI6smDyDHt1j9sSSkcZbE',
+        api_key=get_api_key(),
         max_tokens=None,
         timeout=30,
         max_retries=2
@@ -13,7 +14,7 @@ def queryAnalysis(prompt):
     
     input_prompt = ChatPromptTemplate.from_messages([
         (
-            'system', "You are talking to a doctor You're a medical specialist and your task is to provide a detailed answer for the given query. Also suggest the tests that need to be taken. The answer should be in depth and approx about 300 words."
+            'system', "You're a medical specialist and your task is to provide a detailed answer for the given query. The answer should be in depth and approx about 300 words."
         ),
         ('user', "{input}")
     ])
@@ -21,5 +22,5 @@ def queryAnalysis(prompt):
     chain = input_prompt | llm
     response = chain.invoke({'input':prompt})
 
-    return response
+    return response.content
 

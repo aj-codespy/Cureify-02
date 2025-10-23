@@ -1,9 +1,11 @@
 import PIL.Image
 import google.generativeai as genai
 from query import queryAnalysis
+from config import configure_genai
 
-genai.configure(api_key='AIzaSyBozQi2V59ZCzUI6smDyDHt1j9sSSkcZbE')
-model = genai.GenerativeModel(model_name="gemini-2.0-flash")
+# Configure genai with API key from Streamlit secrets
+configure_genai()
+model = genai.GenerativeModel(model_name="gemini flash 2.0")
 
 def OCR(img, prompt):
     imgFile = PIL.Image.open(img)

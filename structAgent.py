@@ -1,11 +1,12 @@
-from langchain_google_genai import GoogleGenerativeAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from config import get_api_key
 
 def structAgent(prompt, output):
-    llm = GoogleGenerativeAI(
-        model='gemini-1.5-flash',
+    llm = ChatGoogleGenerativeAI(
+        model='gemini flash 2.0',
         temperature=0,
-        api_key='AIzaSyDtB4bETfNDyvpzA_NnBKMrr56rdiOE8bQ',
+        api_key=get_api_key(),
         max_tokens=None,
         timeout=30,
         max_retries=2
@@ -21,4 +22,4 @@ def structAgent(prompt, output):
 
     chain = input_prompt | llm
     response = chain.invoke({'input':prompt, 'answer':output})
-    return response
+    return response.content

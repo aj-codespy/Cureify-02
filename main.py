@@ -9,4 +9,9 @@ def mainAgent(prompt, img=None):
     #     return response
     # else:
     #     return ouptut
+    
 
+prompt = 'What does this image say?'
+img = 'wound.jpeg'
+
+print(mainAgent(prompt, img))
