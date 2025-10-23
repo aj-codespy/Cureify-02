@@ -84,27 +84,14 @@ class ChatManager:
             st.session_state.conversation_context['medical_history'].append(entry)
     
     def display_chat_history(self, language: str = 'en'):
-        """Display chat history in the UI"""
+        """Display simplified chat history"""
         if not st.session_state.chat_history:
-            st.info("No conversation yet. Start by asking a medical question!")
             return
         
-        st.markdown("### 💬 Conversation History")
-        
-        for i, message in enumerate(st.session_state.chat_history):
-            with st.container():
-                if message['role'] == 'user':
-                    st.markdown(f"**👤 You** ({message['timestamp']}):")
-                    st.write(message['content'])
-                else:
-                    st.markdown(f"**🤖 Cureify** ({message['timestamp']}):")
-                    st.write(message['content'])
-                    
-                    # Show message type if not general
-                    if message['message_type'] != 'general':
-                        st.caption(f"Type: {message['message_type'].title()}")
-                
-                st.markdown("---")
+        st.markdown("**Recent Messages:**")
+        for message in st.session_state.chat_history[-3:]:
+            role = "You" if message['role'] == 'user' else "AI"
+            st.text(f"{role}: {message['content'][:50]}...")
     
     def get_conversation_summary(self) -> str:
         """Generate a summary of the current conversation for AI context"""

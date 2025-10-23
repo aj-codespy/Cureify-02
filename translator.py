@@ -1,7 +1,7 @@
 from googletrans import Translator
 import streamlit as st
 
-# Language mapping for Indian languages
+# Simplified language mapping
 INDIAN_LANGUAGES = {
     'English': 'en',
     'Hindi': 'hi',
@@ -12,17 +12,7 @@ INDIAN_LANGUAGES = {
     'Gujarati': 'gu',
     'Kannada': 'kn',
     'Malayalam': 'ml',
-    'Punjabi': 'pa',
-    'Odia': 'or',
-    'Assamese': 'as',
-    'Sanskrit': 'sa',
-    'Urdu': 'ur',
-    'Nepali': 'ne',
-    'Sindhi': 'sd',
-    'Konkani': 'gom',
-    'Manipuri': 'mni',
-    'Bodo': 'brx',
-    'Dogri': 'doi'
+    'Punjabi': 'pa'
 }
 
 def translate_text(text, target_language='en'):
@@ -91,36 +81,13 @@ def create_language_selector():
     return INDIAN_LANGUAGES[selected_language]
 
 def translate_medical_output(text, target_language='en'):
-    """
-    Translate medical output with special handling for medical terms
-    
-    Args:
-        text (str): Medical analysis text to translate
-        target_language (str): Target language code
-    
-    Returns:
-        str: Translated medical text
-    """
+    """Simple medical text translation"""
     if target_language == 'en':
         return text
     
     try:
-        # Add context to help with medical translation
-        context_text = f"This is a medical analysis report. Please translate the following text accurately, preserving medical terminology: {text}"
-        
         translator = Translator()
-        result = translator.translate(context_text, dest=target_language)
-        
-        # Clean up the result by removing the context prefix if it appears
-        translated_text = result.text
-        if "This is a medical analysis report" in translated_text:
-            # Find where the actual translation starts
-            start_idx = translated_text.find(":") + 1
-            if start_idx > 0:
-                translated_text = translated_text[start_idx:].strip()
-        
-        return translated_text
-        
-    except Exception as e:
-        st.warning(f"Medical translation failed: {str(e)}. Showing original text.")
+        result = translator.translate(text, dest=target_language)
+        return result.text
+    except:
         return text
