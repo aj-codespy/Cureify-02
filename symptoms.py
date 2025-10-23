@@ -61,6 +61,30 @@ def retrieve_and_answer(query_text, chatHistory, index_path="faiss_index.idx", c
     response = answer_generation(f"Context: {context}\nQuestion: {query_text}", chatHistory)
     return response
 
+def retrieve_and_answer_with_context(query_text, chat_manager, index_path="faiss_index.idx", chunks_file="text_chunks.pkl", k=4):
+    """Enhanced version that uses chat manager for persistent conversation"""
+    # Get conversation context
+    conversation_summary = chat_manager.get_conversation_summary()
+    
+    # Load vector database
+    index, stored_chunks = load_vector_db(index_path, chunks_file)
+    context = query_vector_db_with_rag(query_text, index, stored_chunks, k)
+    
+    # Get LangChain messages for AI context
+    langchain_messages = chat_manager.get_langchain_messages(limit=10)
+    
+    # Enhanced prompt with conversation context
+    enhanced_prompt = f"""Previous conversation context: {conversation_summary}
+
+Current medical context from knowledge base: {context}
+
+Current question: {query_text}
+
+Please provide a comprehensive medical analysis considering the conversation history and current symptoms."""
+    
+    response = answer_generation(enhanced_prompt, langchain_messages)
+    return response
+
 
 # prompt1 = 0
 # chatHistory = []

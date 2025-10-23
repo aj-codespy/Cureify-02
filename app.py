@@ -1,7 +1,9 @@
 import streamlit as st
 from PIL import Image
+from datetime import datetime
 from main import mainAgent
 from translator import create_language_selector, translate_medical_output, get_language_display_name
+from chat_manager import get_chat_manager
 
 st.title('Cureify: Clinical Decision Support System')
 st.markdown("### 🌍 Multi-lingual Medical AI Assistant")
@@ -23,8 +25,41 @@ This AI-powered medical assistant can:
 4. Click "Analyze Medical Query" to get your personalized medical analysis
 """)
 
+# Initialize chat manager
+chat_manager = get_chat_manager()
+
 # Language selection in sidebar
 selected_language_code = create_language_selector()
+
+# Chat controls in sidebar
+st.sidebar.markdown("### 💬 Conversation Controls")
+
+# Show conversation stats
+chat_history = chat_manager.get_chat_history()
+if chat_history:
+    st.sidebar.metric("Messages", len(chat_history))
+    symptoms = chat_manager.get_symptom_context()
+    if symptoms:
+        st.sidebar.metric("Symptoms Tracked", len(symptoms))
+
+# Clear chat button
+if st.sidebar.button("🗑️ Clear Chat History", help="Clear all conversation history"):
+    chat_manager.clear_chat()
+    st.rerun()
+
+# Export conversation (optional)
+if chat_history:
+    if st.sidebar.button("📄 Export Chat", help="Download conversation as text"):
+        chat_text = "\n\n".join([f"{msg['role'].title()}: {msg['content']}" for msg in chat_history])
+        st.sidebar.download_button(
+            label="Download Chat",
+            data=chat_text,
+            file_name=f"cureify_chat_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt",
+            mime="text/plain"
+        )
+
+# Display conversation history
+chat_manager.display_chat_history(selected_language_code)
 
 # Main input section
 col1, col2 = st.columns([2, 1])
@@ -57,8 +92,8 @@ if st.button('🔍 Analyze Medical Query', type="primary"):
     if prompt or img:
         with st.spinner('Analyzing your request...'):
             try:
-                # Get the medical analysis
-                result = mainAgent(prompt, img)
+                # Get the medical analysis with chat context
+                result = mainAgent(prompt, img, chat_manager)
                 
                 if result:
                     st.success("Analysis Complete!")
@@ -79,6 +114,13 @@ if st.button('🔍 Analyze Medical Query', type="primary"):
                     if selected_language_code != 'en':
                         with st.expander("🌐 Original English Version"):
                             st.write(result)
+                    
+                    # Show conversation context
+                    if chat_manager.get_chat_history():
+                        st.markdown("---")
+                        st.markdown("### 📋 Current Conversation Context")
+                        context = chat_manager.get_conversation_summary()
+                        st.text_area("Context", context, height=100, disabled=True)
                             
                 else:
                     st.error("Sorry, I couldn't process your request. Please try again with more specific information.")
