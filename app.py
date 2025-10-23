@@ -26,7 +26,18 @@ if img:
 
 if st.button('Submit'):
     if prompt or img:
-        result = mainAgent(prompt, img)
-        st.write(result)
+        with st.spinner('Analyzing your request...'):
+            try:
+                result = mainAgent(prompt, img)
+                if result:
+                    st.success("Analysis Complete!")
+                    st.markdown("---")
+                    st.markdown("### Medical Analysis Result:")
+                    st.write(result)
+                else:
+                    st.error("Sorry, I couldn't process your request. Please try again with more specific information.")
+            except Exception as e:
+                st.error(f"An error occurred: {str(e)}")
+                st.info("Please check your API key configuration in the secrets file.")
     else:
         st.warning("Please enter symptoms or upload an image before submitting.")

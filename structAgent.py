@@ -14,12 +14,11 @@ def structAgent(prompt, output):
     
     input_prompt = ChatPromptTemplate.from_messages([
         (
-            'system', "You're a output structure generator, your task is to generate a structured output based on the given prompt and it's answer. Make sure that the output should properly answer the prompt in a simple and easy to understand manner. Here's the answer: {answer}"
+            'system', "You're a medical output structure generator. Your task is to format the given medical response in a clear, professional, and easy-to-understand manner. Structure the output with proper headings, bullet points, and clear explanations. Make it user-friendly for patients while maintaining medical accuracy. Here's the medical response to format: {answer}"
         ),
-        MessagesPlaceholder("chat_history"),
-        ('user', "{input}")
+        ('user', "Please format this medical response for the query: {input}")
     ])
 
     chain = input_prompt | llm
-    response = chain.invoke({'input':prompt, 'answer':output})
+    response = chain.invoke({'input': prompt, 'answer': output})
     return response.content

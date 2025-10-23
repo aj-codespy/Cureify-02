@@ -6,10 +6,19 @@ from symptoms import retrieve_and_answer
 from config import get_api_key
 
 def routerAgent(img, prompt):
-    base = '''From the given prompt, you have to find out which task do we have to perform, if it's an image, 
-    we'll have to perform disease identification for that respond image. If it's a disease symptom related then output 
-    symptoms. If it's any other task then respond with the word query.
-    Whatever is the decision you make give it in All lowercase'''
+    # If there's an image, always process it first
+    if img:
+        imgAnalysis = imgClassifier(img, prompt)
+        return imgAnalysis
+    
+    # For text-only queries, determine the type
+    base = '''You are a medical query classifier. Analyze the given prompt and determine what type of medical query it is:
+    
+    - If the user is describing symptoms, pain, discomfort, or asking about a medical condition they might have, respond with "symptoms"
+    - If the user is asking general medical questions, drug information, or medical facts, respond with "query"
+    - If the user is asking about treatment options, medications, or medical procedures, respond with "query"
+    
+    Respond with only one word: either "symptoms" or "query"'''
 
     Agent = ChatGoogleGenerativeAI(
         model='gemini-2.0-flash',
@@ -20,30 +29,24 @@ def routerAgent(img, prompt):
         max_retries=2
     )
     role = ChatPromptTemplate.from_messages([
-        (
-            'system', f'{base}'
-        ),
+        ('system', base),
         ('user', "{input}")
     ])
 
-
     chain = role | Agent
-    response = chain.invoke({'input':prompt})
-
-    output = response.content 
+    response = chain.invoke({'input': prompt})
+    output = response.content.lower().strip()
     
-    if img:
-        imgAnalysis = imgClassifier(img, prompt)
-        return imgAnalysis
-    elif 'query' in output:
+    # Route based on classification
+    if 'symptom' in output:
+        # Initialize empty chat history for symptoms
+        chatHistory = []
+        result = retrieve_and_answer(prompt, chatHistory)
+        return result
+    else:
+        # Default to query analysis for general medical questions
         queryOutput = queryAnalysis(prompt)
         return queryOutput
-    # elif 'symptom' in output:
-    #     result = retrieve_and_answer(prompt, chatHistory)
-    #     while (result!='done' or result!='DONE'):
-    #         result = retrieve_and_answer(prompt, chatHistory)
-    else:
-        return output
 
 
 
