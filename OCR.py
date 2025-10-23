@@ -5,7 +5,7 @@ from config import configure_genai
 
 # Configure genai with API key from Streamlit secrets
 configure_genai()
-model = genai.GenerativeModel(model_name="gemini flash 2.0")
+model = genai.GenerativeModel(model_name="gemini-2.0-flash")
 
 def OCR(img, prompt):
     imgFile = PIL.Image.open(img)

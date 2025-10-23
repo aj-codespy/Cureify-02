@@ -4,7 +4,7 @@ from config import get_api_key
 
 def queryAnalysis(prompt):
     llm = ChatGoogleGenerativeAI(
-        model='gemini flash 2.0',
+        model='gemini-2.0-flash',
         temperature=0,
         api_key=get_api_key(),
         max_tokens=None,

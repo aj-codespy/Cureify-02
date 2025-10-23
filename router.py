@@ -12,7 +12,7 @@ def routerAgent(img, prompt):
     Whatever is the decision you make give it in All lowercase'''
 
     Agent = ChatGoogleGenerativeAI(
-        model='gemini flash 2.0',
+        model='gemini-2.0-flash',
         temperature=0,
         api_key=get_api_key(),
         max_tokens=None,
